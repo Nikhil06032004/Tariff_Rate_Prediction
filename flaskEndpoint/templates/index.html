@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prediction App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 600px;
+        margin: 100px auto;
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      label {
+        margin-top: 10px;
+        font-weight: bold;
+      }
+      input,
+      select {
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 20px;
+      }
+      button {
+        width: 100%;
+        padding: 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      .output {
+        margin-top: 20px;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Prediction App</h2>
+      <form id="predictionForm">
+        <label for="year">Year</label>
+        <input
+          type="number"
+          id="year"
+          name="year"
+          placeholder="Enter year"
+          required
+        />
+
+        <label for="road">Road</label>
+        <select id="road" name="road" required>
+          <option value="nh">NH</option>
+          <option value="sh">SH</option>
+        </select>
+
+        <label for="seasonalimpact">Seasonal Impact</label>
+        <select id="seasonalimpact" name="seasonalimpact" required>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+
+        <label for="demand">Demand</label>
+        <select id="demand" name="demand" required>
+          <option value="normal">Normal</option>
+          <option value="high">High</option>
+          <option value="less">Less</option>
+          <option value="low">Low</option>
+        </select>
+
+        <label for="wttons">Weight (Tons)</label>
+        <input
+          type="number"
+          step="0.01"
+          id="wttons"
+          name="wttons"
+          placeholder="Enter weight in tons"
+          required
+        />
+
+        <label for="labour">Labour</label>
+        <input
+          type="number"
+          id="labour"
+          name="labour"
+          placeholder="Enter labour cost"
+          required
+        />
+
+        <label for="toll">Toll</label>
+        <input
+          type="number"
+          id="toll"
+          name="toll"
+          placeholder="Enter toll cost"
+          required
+        />
+
+        <label for="distance">Distance</label>
+        <input
+          type="number"
+          step="0.01"
+          id="distance"
+          name="distance"
+          placeholder="Enter distance"
+          required
+        />
+
+        <label for="fuelcost">Fuel Cost</label>
+        <input
+          type="number"
+          id="fuelcost"
+          name="fuelcost"
+          placeholder="Enter fuel cost"
+          required
+        />
+
+        <label for="miscellaneous">Miscellaneous</label>
+        <input
+          type="number"
+          step="0.01"
+          id="miscellaneous"
+          name="miscellaneous"
+          placeholder="Enter miscellaneous cost"
+          required
+        />
+
+        <button type="button" id="predictBtn">Predict</button>
+      </form>
+      <div class="output" id="output"></div>
+    </div>
+
+    <script>
+      document
+        .getElementById("predictBtn")
+        .addEventListener("click", function () {
+          // Get the form data
+          const formData = {
+            year: parseInt(document.getElementById("year").value),
+            road: document.getElementById("road").value,
+            seasonalimpact: document.getElementById("seasonalimpact").value,
+            demand: document.getElementById("demand").value,
+            wttons: parseFloat(document.getElementById("wttons").value),
+            labour: parseInt(document.getElementById("labour").value),
+            toll: parseInt(document.getElementById("toll").value),
+            distance: parseFloat(document.getElementById("distance").value),
+            fuelcost: parseInt(document.getElementById("fuelcost").value),
+            miscellaneous: parseFloat(
+              document.getElementById("miscellaneous").value
+            ),
+          };
+
+          fetch("/predict", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              document.getElementById(
+                "output"
+              ).innerHTML = `Tariff: ${(
+                Number(data.prediction).toFixed(2)
+              )}`;
+            })
+            .catch((error) => {
+              document.getElementById(
+                "output"
+              ).innerHTML = `Error: ${error.message}`;
+            });
+        });
+    </script>
+  </body>
+</html>
