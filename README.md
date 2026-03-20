@@ -1,6 +1,6 @@
 # 🚛 Tariff Rate Prediction
 
-> **Machine Learning–Powered Transportation Cost Forecasting**  
+> **Machine Learning–Powered Transportation Cost Forecasting**
 > Predict road-freight tariff rates from shipment parameters using ensemble ML — deployed via a Flask REST API with an interactive web interface.
 
 <p align="center">
@@ -33,13 +33,13 @@
 
 ## 🎯 Overview
 
-Transportation tariff rates — the per-shipment costs charged by logistics operators for road freight — are influenced by a complex web of variables: fuel prices, tolls, cargo weight, route distance, labour rates, seasonal demand, and road classification. Manual pricing is slow, inconsistent, and prone to margin erosion.
+Transportation tariff rates are influenced by a complex web of variables: fuel prices, tolls, cargo weight, route distance, labour rates, seasonal demand, and road classification. Manual pricing is slow, inconsistent, and prone to margin erosion.
 
 This project builds a **supervised regression pipeline** that ingests historical shipment records and learns to predict the final tariff with high accuracy. The trained model is surfaced through a **Flask REST API** and an **HTML web form**, enabling non-technical users to obtain instant price estimates without touching a single line of code.
 
-### Key Highlights
+**Key Highlights**
 
-- Automated EDA using `ydata-profiling` for rapid dataset insight
+- Automated EDA using ydata-profiling for rapid dataset insight
 - 4 ML algorithms benchmarked with cross-validated evaluation
 - Hyperparameter tuning via GridSearchCV
 - Live web interface — browser-based form for instant predictions
@@ -63,26 +63,26 @@ The Tariff Rate Prediction system addresses this by modelling the relationship b
 ---
 
 ## 📁 Project Structure
-```
-Tariff_Rate_Prediction/
-│
-├── notebook/
-│   └── tariff_model.ipynb          # ML pipeline & training
-│
-├── data/
-│   └── tariff_data.csv             # Dataset
-│
-├── flaskEndpoint/
-│   ├── app.py                      # Flask API
-│   └── templates/
-│       └── index.html              # Web UI
-│
-├── models/
-│   ├── model.pkl                   # Trained model
-│   └── scaler.pkl                  # Scaler
-│
-├── requirements.txt
-└── README.md
+
+    Tariff_Rate_Prediction/
+    │
+    ├── notebook/
+    │   └── tariff_model.ipynb          # ML pipeline & training
+    │
+    ├── data/
+    │   └── tariff_data.csv             # Dataset
+    │
+    ├── flaskEndpoint/
+    │   ├── app.py                      # Flask API
+    │   └── templates/
+    │       └── index.html              # Web UI
+    │
+    ├── models/
+    │   ├── model.pkl                   # Trained model
+    │   └── scaler.pkl                  # Scaler
+    │
+    ├── requirements.txt
+    └── README.md
 
 ---
 
@@ -112,7 +112,7 @@ The dataset contains historical road-freight shipment records. Each row represen
 
 ### 1. Exploratory Data Analysis
 
-Automated HTML profiling report generated using `ydata-profiling`, covering variable distributions, missing-value patterns, correlation heatmaps, and outlier summaries.
+Automated HTML profiling report generated using ydata-profiling, covering variable distributions, missing-value patterns, correlation heatmaps, and outlier summaries.
 
 ### 2. Data Preprocessing
 
@@ -148,20 +148,19 @@ GridSearchCV with 5-fold cross-validation, scoring on negative MAE.
 ---
 
 ## 🌐 Deployment Architecture
-```
-[ Browser Form (index.html) ]
-         |
-         |  POST /predict
-         v
-[ Flask API (app.py) ]
-   |-- Parse and validate inputs
-   |-- Apply StandardScaler transform
-   |-- Load serialised model
-   |-- Return predicted tariff
-         |
-         v
-[ Prediction displayed in browser ]
-```
+
+    [ Browser Form (index.html) ]
+             |
+             |  POST /predict
+             v
+    [ Flask API (app.py) ]
+       |-- Parse and validate inputs
+       |-- Apply StandardScaler transform
+       |-- Load serialised model
+       |-- Return predicted tariff
+             |
+             v
+    [ Prediction displayed in browser ]
 
 ---
 
@@ -175,44 +174,37 @@ GridSearchCV with 5-fold cross-validation, scoring on negative MAE.
 - Jupyter Notebook (for retraining)
 
 ### Step 1 — Clone the Repository
-```bash
-git clone https://github.com/Nikhil06032004/Tariff_Rate_Prediction.git
-cd Tariff_Rate_Prediction
-```
+
+    git clone https://github.com/Nikhil06032004/Tariff_Rate_Prediction.git
+    cd Tariff_Rate_Prediction
 
 ### Step 2 — Create a Virtual Environment
-```bash
-python -m venv venv
-source venv/bin/activate
-```
+
+    python -m venv venv
+    source venv/bin/activate
 
 On Windows:
-```bash
-venv\Scripts\activate
-```
+
+    venv\Scripts\activate
 
 ### Step 3 — Install Dependencies
-```bash
-pip install -r requirements.txt
-```
+
+    pip install -r requirements.txt
 
 ### Step 4 — Train the Model
-```bash
-jupyter notebook
-```
+
+    jupyter notebook
 
 Open the notebook and run all cells. This trains the model and saves it to disk.
 
 ### Step 5 — Start the Flask API
-```bash
-cd flaskEndpoint
-python app.py
-```
+
+    cd flaskEndpoint
+    python app.py
 
 ### Step 6 — Open the Web Interface
-```
-http://127.0.0.1:5000
-```
+
+    http://127.0.0.1:5000
 
 ---
 
@@ -220,28 +212,26 @@ http://127.0.0.1:5000
 
 ### Via Web Browser
 
-Navigate to `http://127.0.0.1:5000`, fill in the shipment parameters, and click Predict Tariff.
+Navigate to http://127.0.0.1:5000, fill in the shipment parameters, and click Predict Tariff.
 
 ### Via cURL
-```bash
-curl -X POST http://127.0.0.1:5000/predict \
-  -d "year=2024&road_type=1&seasonal_impact=1.2&demand=0.8" \
-  -d "weight=12000&labor=1500&toll=400&distance=450" \
-  -d "fuel_cost=3200&miscellaneous=200"
-```
+
+    curl -X POST http://127.0.0.1:5000/predict \
+      -d "year=2024&road_type=1&seasonal_impact=1.2&demand=0.8" \
+      -d "weight=12000&labor=1500&toll=400&distance=450" \
+      -d "fuel_cost=3200&miscellaneous=200"
 
 ### Via Python
-```python
-import pickle
-import numpy as np
 
-model = pickle.load(open("model.pkl", "rb"))
-scaler = pickle.load(open("scaler.pkl", "rb"))
+    import pickle
+    import numpy as np
 
-features = np.array([[2024, 1, 1.2, 0.8, 12000, 1500, 400, 450, 3200, 200]])
-prediction = model.predict(scaler.transform(features))
-print(f"Predicted Tariff: {prediction[0]:,.2f}")
-```
+    model = pickle.load(open("models/model.pkl", "rb"))
+    scaler = pickle.load(open("models/scaler.pkl", "rb"))
+
+    features = np.array([[2024, 1, 1.2, 0.8, 12000, 1500, 400, 450, 3200, 200]])
+    prediction = model.predict(scaler.transform(features))
+    print(f"Predicted Tariff: {prediction[0]:,.2f}")
 
 ---
 
@@ -254,9 +244,8 @@ print(f"Predicted Tariff: {prediction[0]:,.2f}")
 | scikit-learn | 1.2.2 | ML algorithms, preprocessing, metrics |
 | flask | 2.0.3 | Web framework for the prediction API |
 | ydata-profiling | 4.11.0 | Automated EDA report generation |
-```bash
-pip install -r requirements.txt
-```
+
+    pip install -r requirements.txt
 
 ---
 
@@ -281,9 +270,18 @@ Exact metric values (MAE, RMSE, R²) are available in the notebook output cells 
 - [ ] Integrate SHAP feature importance in the web UI
 - [ ] Build a JSON REST API alongside the HTML form
 - [ ] Add pytest unit tests and GitHub Actions CI/CD
-- [ ] Explore time-series extensions for fuel price trend integration
 
+---
 
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature-name`
+3. Commit your changes: `git commit -m "feat: add your feature"`
+4. Push to the branch: `git push origin feature/your-feature-name`
+5. Open a Pull Request with a clear description
+
+Please ensure all notebook cells run without errors before submitting.
 
 ---
 
@@ -297,3 +295,8 @@ This project is licensed under the MIT License.
 
 **Nikhil** — [@Nikhil06032004](https://github.com/Nikhil06032004)
 
+For bug reports or feature requests, please [open an issue](https://github.com/Nikhil06032004/Tariff_Rate_Prediction/issues).
+
+---
+
+<p align="center">Built with love for the logistics and data science community</p>
